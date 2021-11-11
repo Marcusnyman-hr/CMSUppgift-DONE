@@ -1,0 +1,78 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@using ClientDependency.Core.Mvc
+@{
+    Layout = null;
+
+    var homePage = Model.AncestorOrSelf<Home>();
+    var siteSettings = Umbraco.ContentAtRoot().DescendantsOrSelfOfType("siteSettings").FirstOrDefault();
+    var mainBackgroundColor = siteSettings.Value<string>("mainBackgroundColor");
+    
+}
+<style>
+    body{
+        background-color: @mainBackgroundColor!important;
+    }
+</style>
+<html>
+<head>
+    <!--css etc-->
+    @{
+        Html.RequiresCss("https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css", new
+        {
+            integrity = "sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn",
+            crossorigin = "anonymous"
+        });
+        Html.RequiresCss("/css/CookieConsent.css");
+        Html.RequiresCss("/css/main.css");
+        Html.RequiresCss("/css/RTE.css");
+        Html.RequiresCss("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/css/all.css", new
+        {
+            integrity = "sha512-ajhUYg8JAATDFejqbeN7KbF2zyPbbqz04dgOLyGcYEk/MJD3V+HJhJLKvJ2VVlqrr4PwHeGTTWxbI+8teA7snw==",
+            crossorigin = "anonymous",
+            referrerpolicy = "no-referrer"
+        });
+        Html.RequiresJs("https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js", new
+        {
+            integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj",
+            crossorigin = "anonymous"
+        });
+        Html.RequiresJs("https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js", new
+        {
+            integrity = "sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF",
+            crossorigin = "anonymous"
+
+        });
+        Html.RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.1.0/js/all.js", new
+        {
+            integrity = "sha512-vn7pO1RiR0IT5T9K+USTmMfkTaecOtFtCCV0JvT+j8ZPBujq6C3P5J2sHttG7D41pBPqLCih+7lIXamnFodtUw==",
+            crossorigin = "anonymous",
+            referrerpolicy = "no-referrer"
+
+        });
+        Html.RequiresJs("Https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js");
+        Html.RequiresJs("Https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js");
+        Html.RequiresJs("/scripts/CookieConsent.js");
+        Html.RequiresJs("https://platform.twitter.com/widgets.js");
+
+    }
+
+    @Html.RenderCssHere()
+
+    @RenderSection("head", false)
+</head>
+<body>
+    <nav>
+        @Html.Partial("NavBar") 
+    </nav>
+    <div class="content-wrapper">
+        @RenderBody()  
+    </div>
+    <div class="footer">
+        @Html.Partial("Footer")
+    </div>
+    @Html.RenderJsHere()
+</body>
+</html>
+
+        <!--Cookie Consent-->
+        <!-- @Html.Partial("CookieConsent") -->

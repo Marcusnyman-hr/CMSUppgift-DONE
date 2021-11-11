@@ -1,0 +1,66 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<CMSUppgift.core.ViewModel.AccountViewModel>
+@using CMSUppgift.core.Controllers
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>My account</h2>
+            @if (TempData["status"] != null)
+            {
+                if ((string)TempData["status"] == "Updated Details")
+                {
+                    <p>Your details have been updated!</p>
+                }
+                else
+                {
+                    <p>Your password have been updated!</p>
+                }
+
+            }
+            else
+            {
+                @Html.ValidationSummary()
+                using (Html.BeginUmbracoForm<AccountController>("HandleUpdateDetails"))
+                {
+                    <h2 class="h3">Fill in the details below to change your profile.</h2>
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name)
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @type = "text" })
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "text" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                    <button type="submit" value="Update Details" name="update-button" class="btn btn-primary">Update</button>
+
+                }
+                using (Html.BeginUmbracoForm<AccountController>("HandlePasswordChange"))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.HiddenFor(m => m.Name)
+                    @Html.HiddenFor(m => m.Email)
+                    @Html.HiddenFor(m => m.Username)
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @type = "password", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                    </div>
+                    <button type="submit" value="Change Password" name="password-button" class="btn btn-primary">Change Password</button>
+                }
+            }
+        </div>
+    </div>
+
+</div>
+

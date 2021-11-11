@@ -1,0 +1,32 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var siteSettings = Umbraco.ContentAtRoot().DescendantsOrSelfOfType("siteSettings").FirstOrDefault();
+    var headerAndFooterColor = siteSettings.Value<string>("headerAndFooterColor");
+    var headerAndFooterTextColor = siteSettings.Value<string>("headerAndFooterTextColor");
+}
+
+<style>
+    .footer-wrapper {
+        background-color: @headerAndFooterColor!important;
+    }
+    .copyright{
+        color: @headerAndFooterTextColor!important
+    }
+
+</style>
+<div class="footer-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center py-4">
+                <ul class="list-inline-item">
+                    <li class="list-inline-item">
+                        <a href="https://twitter.com/bed20" target="_blank" title="Follow us on twitter">
+                            <i class="fab fa-twitter fa-2x"></i> 
+                        </a>
+                    </li>
+                </ul>
+                <p class="copyright">Copyright &copy; @DateTime.Now.Year BED20</p>
+            </div>
+        </div>
+    </div>
+</div>

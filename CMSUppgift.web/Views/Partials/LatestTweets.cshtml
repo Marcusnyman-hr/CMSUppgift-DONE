@@ -1,0 +1,45 @@
+﻿@model CMSUppgift.core.ViewModel.TwitterViewModel
+    @using System.Globalization;
+@{
+    dynamic json = Newtonsoft.Json.JsonConvert.DeserializeObject(Model.Json);
+ }
+
+<section class="container">
+    <h2 class="text-center mt-5">Our latest tweets</h2>
+    <div class="row pt-2">
+        <div class="col">
+            <div class="card-deck">
+                @foreach (var item in json) {
+                DateTime createdDate = DateTime.ParseExact(item.created_at.ToString(),"ddd MMM dd HH:mm:ss +ffff yyyy", CultureInfo.InvariantCulture);
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div>
+                            <strong>@Model.TwitterHandle</strong><br/>
+                            @@@Model.TwitterHandle
+                        </div>
+                        <i class="fab fa-twitter fa-2x"></i>
+                    </div>
+                    <div class="card-body">
+                        @item.full_text
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div>
+                            @if (createdDate.Year == DateTime.Now.Year)
+                            {
+                                @Html.Raw(createdDate.ToString("d MMM"))<br />
+                            }
+                            else
+                            {
+                                @Html.Raw(createdDate.ToString("d MMM yyyy"))<br />
+                            }
+                        </div>
+                        <div>
+                            <a href="https://twitter.com/@Model.TwitterHandle/status/@item.id_str" class="stretched-link">Read More</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

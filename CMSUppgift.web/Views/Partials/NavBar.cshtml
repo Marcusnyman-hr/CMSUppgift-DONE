@@ -1,0 +1,64 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+@{
+    var homePage = Model.AncestorOrSelf<Home>();
+    var siteSettings = Umbraco.ContentAtRoot().DescendantsOrSelfOfType("siteSettings").FirstOrDefault();
+    var headerAndFooterColor = siteSettings.Value<string>("headerAndFooterColor");
+    var headerAndFooterTextColor = siteSettings.Value<string>("headerAndFooterTextColor");
+
+}
+<style>
+    .navbar {
+        background-color: @headerAndFooterColor!important;
+    }
+    .navbar > a {
+        color: @headerAndFooterTextColor!important
+    }
+</style>
+<!-- <div class="navigation-wrapper">
+    <div class="navigation-inner">
+        <div class="navigation-logo">
+            <a class="navbar-brand" href="#">BED20 news</a>
+        </div>
+    </div>
+</nav> -->
+
+
+<nav class="navbar nav navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">BED20 news</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                @foreach (var page in homePage.Children.Where(w => w.IsVisible()))
+                {
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@page.Url">@page.Name</a>
+                    </li>
+                }
+                @if (Umbraco.MemberIsLoggedOn())
+                {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Account
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/my-account">My account</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                }
+
+
+            </ul>
+        </div>
+    </div>
+</nav>

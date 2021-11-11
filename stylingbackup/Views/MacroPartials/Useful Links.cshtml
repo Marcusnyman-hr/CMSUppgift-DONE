@@ -1,0 +1,15 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@using Umbraco.Web.Models
+@{
+    var usefulLinks = Model.Content.Value<IEnumerable<IPublishedElement>>("linkNestedContent");
+}
+@if(usefulLinks != null){
+    <h2>Useful Links</h2>
+    <ul>
+        @foreach(var link in usefulLinks){
+            var url = link.Value<Link>("linkUrl").Url;
+            <li><i class="@link.Value("linkIcon") mr-2"></i><a href="@url">@link.Value("linkText")</a></li>
+        }
+    </ul>
+
+}

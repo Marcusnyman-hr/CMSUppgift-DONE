@@ -1,0 +1,54 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<CMSUppgift.core.ViewModel.LoginViewModel>
+@{ 
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+
+    var myUser = System.Web.Security.Membership.GetUser();
+}
+@if (Umbraco.MemberIsLoggedOn())
+{
+    if(myUser != null)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p><strong>You are logged in as</strong>@myUser.UserName</p>
+                    <a href="/logout" class=" btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+else {
+
+
+<div class="container">
+        <div class="row">
+            <div class="col">
+                @using (Html.BeginUmbracoForm<CMSUppgift.core.Controllers.LoginController>("HandleLogin"))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary()
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Username)
+                        @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
+                    </div>
+                    @Html.HiddenFor(m=>m.RedirectUrl)
+                    <button name="login" type="submit" class="btn btn-primary">Login</button>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+}

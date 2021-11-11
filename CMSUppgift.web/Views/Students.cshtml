@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.Students>
+@using ContentModels = Umbraco.Web.PublishedModels;
+@using Umbraco.Core.PropertyEditors.ValueConverters;
+@{
+	Layout = "main.cshtml";
+
+    var students = Umbraco.ContentAtRoot().DescendantsOrSelfOfType("Students").FirstOrDefault();
+    var allStudents = students.Children;
+}
+<div class="container pb-5 pt-5">
+    <div class="row">
+        <div class="col">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-deck">
+                            @foreach (var student in allStudents)
+                        {
+                        var imgCropper = student.Value<ImageCropperValue>("studentPicture");
+                        var imgUrl = imgCropper.Src + imgCropper.GetCropUrl("thumbnail");
+                            <div class="card" style="width: 18rem;">
+                                <img class="card-img-top" src="@imgUrl" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title">@student.Value("studentName")</h5>
+                                    <h6 class="card-title">@student.Value("studentEmail")</h6>
+                                    <p class="card-title">"@student.Value("studentQuote")"</p>
+                                    <a href="#" class="btn btn-success">Send Email</a>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
